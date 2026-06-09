@@ -1,0 +1,3 @@
+<map id="rm_auto_aim::NumberClassifier" name="rm_auto_aim::NumberClassifier">
+<area shape="rect" id="node1" title="Wrapper around an ONNX DNN for recognizing the digit on an armor." alt="" coords="5,5,233,112"/>
+</map>

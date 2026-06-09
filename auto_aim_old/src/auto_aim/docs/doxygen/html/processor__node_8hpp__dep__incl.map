@@ -1,0 +1,4 @@
+<map id="armor_processor/include/armor_processor/processor_node.hpp" name="armor_processor/include/armor_processor/processor_node.hpp">
+<area shape="rect" id="node1" title="Declares the ROS2 node that receives detected armors, tracks a target across frames and publishes a f..." alt="" coords="5,5,208,61"/>
+<area shape="rect" id="node2" href="$processor__node_8cpp.html" title="ROS2 component implementation for fusing detected armors into a stable tracked target." alt="" coords="29,109,184,151"/>
+</map>

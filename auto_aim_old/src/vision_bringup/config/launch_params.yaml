@@ -1,0 +1,21 @@
+# 海康:hik 大恒:galaxy 麦德威视：mv
+camera: hik
+
+world2camera:
+  ###long down
+  xyz: "\"-0.06456  0.0  -0.0763\""
+  rpy: "\"0.0  0.244346095279 0.0\""
+  # rpy: "\"0.0  0.22689280275926 0.0\""
+  # rpy: "\"0.0  0.2205430960239319 0.0\""
+  # rpy: "\"0.0  0.1510196326  0.0\""
+  # rpy: "\"0.0  9*pi/180  0.0\""
+
+  ###short right up
+  xyz1: "\"-0.125  -0.05217  0.10\""  
+  rpy1: "\"0.0  -0.06235987755  0.0\"" 
+  # rpy1: "\"0.0  -0.01745329251  0.0\""
+
+
+# detector_log_level: INFO
+# tracker_log_level: INFO
+# serial_log_level: INFO

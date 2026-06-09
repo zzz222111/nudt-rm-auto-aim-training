@@ -1,0 +1,6 @@
+<map id="armor_detector/include/armor_detector/pnp_solver.hpp" name="armor_detector/include/armor_detector/pnp_solver.hpp">
+<area shape="rect" id="node1" title="Solve PnP for detected armors and simple image&#45;center distance." alt="" coords="78,5,306,47"/>
+<area shape="rect" id="node2" href="$detector__node_8hpp.html" title="ROS2 component node declaration for the armor detector." alt="" coords="5,95,189,151"/>
+<area shape="rect" id="node4" href="$pnp__solver_8cpp.html" title=" " alt="" coords="214,102,359,143"/>
+<area shape="rect" id="node3" href="$detector__node_8cpp.html" title="ROS2 component implementing the armor detection node." alt="" coords="24,199,171,240"/>
+</map>

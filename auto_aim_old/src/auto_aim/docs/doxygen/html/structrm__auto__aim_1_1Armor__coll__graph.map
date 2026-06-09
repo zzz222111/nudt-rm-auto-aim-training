@@ -1,0 +1,5 @@
+<map id="rm_auto_aim::Armor" name="rm_auto_aim::Armor">
+<area shape="rect" id="node1" title="Represents a paired armor plate, built from two Light objects." alt="" coords="5,375,168,540"/>
+<area shape="rect" id="node2" href="$structrm__auto__aim_1_1Light.html" title="Lightweight representation of a single detected light bar." alt="" coords="13,132,161,297"/>
+<area shape="rect" id="node3" title=" " alt="" coords="25,5,149,83"/>
+</map>

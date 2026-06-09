@@ -1,0 +1,5 @@
+<map id="rm_auto_aim::Detector" name="rm_auto_aim::Detector">
+<area shape="rect" id="node1" title="Main detection pipeline class." alt="" coords="108,233,293,501"/>
+<area shape="rect" id="node2" href="$structrm__auto__aim_1_1Detector_1_1LightParams.html" title="Parameters controlling light candidate filtering." alt="" coords="5,27,177,149"/>
+<area shape="rect" id="node3" href="$structrm__auto__aim_1_1Detector_1_1ArmorParams.html" title="Parameters controlling pairing of lights into armors." alt="" coords="202,5,421,171"/>
+</map>

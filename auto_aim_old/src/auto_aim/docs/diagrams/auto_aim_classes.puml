@@ -1,0 +1,59 @@
+@startuml
+' PlantUML class diagram for main classes in auto_aim
+package "armor_detector" {
+  class Armor {
+    +Light left_light
+    +Light right_light
+    +Point2f center
+    +ArmorType type
+    +Mat number_img
+    +string number
+    +float confidence
+  }
+  class Light {
+    +Point2f top
+    +Point2f bottom
+    +int color
+    +double length
+    +double width
+    +float tilt_angle
+  }
+  class Detector {
+    +Detector(...)
+    +vector<Armor> detect(cv::Mat)
+  }
+  class NumberClassifier {
+    +NumberClassifier(string model, string label, double thr)
+    +void extractNumbers(Mat, vector<Armor>&)
+    +void classify(vector<Armor>&)
+  }
+  class PnPSolver {
+    +PnPSolver(array<double,9>, vector<double>)
+    +bool solvePnP(const Armor&, Mat& rvec, Mat& tvec)
+  }
+}
+
+package "armor_processor" {
+  class ExtendedKalmanFilter {
+    +predict()
+    +update(z)
+  }
+  class Tracker {
+    +Tracker(double,double)
+    +init(Armors::SharedPtr)
+    +update(Armors::SharedPtr)
+  }
+  class ArmorProcessorNode {
+    +ArmorProcessorNode(NodeOptions)
+  }
+}
+
+Detector "1" -- "*" Light : contains
+Armor "1" -- "2" Light : composed of
+Detector "1" o-- "1" NumberClassifier : uses
+ArmorDetectorNode "1" o-- "1" Detector : owns
+ArmorDetectorNode "1" o-- "1" PnPSolver : owns
+Tracker "1" o-- "1" ExtendedKalmanFilter : uses
+ArmorProcessorNode "1" o-- "1" Tracker : owns
+
+@enduml

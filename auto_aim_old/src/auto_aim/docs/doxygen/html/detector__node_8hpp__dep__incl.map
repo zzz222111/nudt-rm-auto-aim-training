@@ -1,0 +1,4 @@
+<map id="armor_detector/include/armor_detector/detector_node.hpp" name="armor_detector/include/armor_detector/detector_node.hpp">
+<area shape="rect" id="node1" title="ROS2 component node declaration for the armor detector." alt="" coords="5,5,189,61"/>
+<area shape="rect" id="node2" href="$detector__node_8cpp.html" title="ROS2 component implementing the armor detection node." alt="" coords="24,109,171,151"/>
+</map>

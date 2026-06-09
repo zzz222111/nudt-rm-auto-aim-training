@@ -1,0 +1,8 @@
+<map id="armor_detector/include/armor_detector/number_classifier.hpp" name="armor_detector/include/armor_detector/number_classifier.hpp">
+<area shape="rect" id="node1" title=" " alt="" coords="150,5,330,61"/>
+<area shape="rect" id="node2" href="$detector_8hpp.html" title="Detection pipeline for extracting light bars and matching armors." alt="" coords="135,109,345,151"/>
+<area shape="rect" id="node3" href="$detector__node_8hpp.html" title="ROS2 component node declaration for the armor detector." alt="" coords="5,199,189,255"/>
+<area shape="rect" id="node6" href="$number__classifier_8cpp.html" title="Warp number ROIs and run an ONNX DNN to classify armor digits." alt="" coords="369,109,535,151"/>
+<area shape="rect" id="node5" href="$detector_8cpp.html" title="Implementation of the image processing pipeline for finding lights and matching them into armor candi..." alt="" coords="214,206,359,247"/>
+<area shape="rect" id="node4" href="$detector__node_8cpp.html" title="ROS2 component implementing the armor detection node." alt="" coords="24,303,171,344"/>
+</map>

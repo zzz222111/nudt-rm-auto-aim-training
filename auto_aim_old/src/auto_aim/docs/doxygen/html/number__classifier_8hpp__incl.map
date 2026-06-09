@@ -1,0 +1,12 @@
+<map id="armor_detector/include/armor_detector/number_classifier.hpp" name="armor_detector/include/armor_detector/number_classifier.hpp">
+<area shape="rect" id="node1" title=" " alt="" coords="319,5,499,61"/>
+<area shape="rect" id="node2" title=" " alt="" coords="5,109,160,136"/>
+<area shape="rect" id="node3" title=" " alt="" coords="185,109,255,136"/>
+<area shape="rect" id="node4" title=" " alt="" coords="280,109,360,136"/>
+<area shape="rect" id="node5" title=" " alt="" coords="384,109,435,136"/>
+<area shape="rect" id="node6" title=" " alt="" coords="492,184,551,211"/>
+<area shape="rect" id="node7" title=" " alt="" coords="510,109,573,136"/>
+<area shape="rect" id="node8" href="$armor_8hpp.html" title="Data structures for lights and armors used by the armor detector." alt="" coords="597,109,789,136"/>
+<area shape="rect" id="node9" title=" " alt="" coords="599,184,737,211"/>
+<area shape="rect" id="node10" title=" " alt="" coords="761,184,847,211"/>
+</map>

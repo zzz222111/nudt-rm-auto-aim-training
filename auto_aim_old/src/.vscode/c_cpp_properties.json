@@ -1,0 +1,24 @@
+{
+    "configurations": [
+        {
+            "name": "Linux",
+            "includePath": [
+                "${workspaceFolder}/**",
+                "/opt/ros/humble/include/**",
+                "/usr/include/**",
+                "/opt/intel/openvino_2024/runtime/include/**",
+                "/home/rsy20/RoboMaster/src_25_5_23/src/auto_aim/armor_detector/include/**",
+                // "/home/rsy20/src_25_5_23/src/auto_aim/armor_detector_ren/include/**",
+                "/home/rsy20/RoboMaster/src_25_5_23/src/**"
+                // "/usr/local/include/**",
+                // "/home/rsy20/src_25_5_23/src/jlcv_interfaces/msg/**"
+            ],
+            "defines": [],
+            "compilerPath": "/usr/bin/gcc",
+            "cStandard": "c17",
+            "cppStandard": "gnu++17",
+            "intelliSenseMode": "linux-gcc-x64"
+        }
+    ],
+    "version": 4
+}

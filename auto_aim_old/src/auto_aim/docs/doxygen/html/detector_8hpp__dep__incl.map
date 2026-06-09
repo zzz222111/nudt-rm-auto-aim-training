@@ -1,0 +1,6 @@
+<map id="armor_detector/include/armor_detector/detector.hpp" name="armor_detector/include/armor_detector/detector.hpp">
+<area shape="rect" id="node1" title="Detection pipeline for extracting light bars and matching armors." alt="" coords="87,5,297,47"/>
+<area shape="rect" id="node2" href="$detector__node_8hpp.html" title="ROS2 component node declaration for the armor detector." alt="" coords="5,95,189,151"/>
+<area shape="rect" id="node4" href="$detector_8cpp.html" title="Implementation of the image processing pipeline for finding lights and matching them into armor candi..." alt="" coords="214,102,359,143"/>
+<area shape="rect" id="node3" href="$detector__node_8cpp.html" title="ROS2 component implementing the armor detection node." alt="" coords="24,199,171,240"/>
+</map>

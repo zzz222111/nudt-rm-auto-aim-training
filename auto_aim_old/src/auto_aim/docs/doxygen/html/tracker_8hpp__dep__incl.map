@@ -1,0 +1,6 @@
+<map id="armor_processor/include/armor_processor/tracker.hpp" name="armor_processor/include/armor_processor/tracker.hpp">
+<area shape="rect" id="node1" title="High&#45;level tracker that selects a target armor and maintains state using an Extended Kalman Filter." alt="" coords="103,5,313,47"/>
+<area shape="rect" id="node2" href="$processor__node_8hpp.html" title="Declares the ROS2 node that receives detected armors, tracks a target across frames and publishes a f..." alt="" coords="5,95,208,151"/>
+<area shape="rect" id="node4" href="$tracker_8cpp.html" title="Concrete tracker logic: selection, EKF initialization and update, and state&#45;machine for lost/detectin..." alt="" coords="232,102,387,143"/>
+<area shape="rect" id="node3" href="$processor__node_8cpp.html" title="ROS2 component implementation for fusing detected armors into a stable tracked target." alt="" coords="29,199,184,240"/>
+</map>

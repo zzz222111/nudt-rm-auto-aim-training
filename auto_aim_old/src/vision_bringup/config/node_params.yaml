@@ -1,0 +1,63 @@
+/camera_node:
+  ros__parameters:
+    camera_info_url: package://vision_bringup/config/camera_info.yaml
+    camera_info_url1: package://vision_bringup/config/camera_info1.yaml
+    camera_name: narrow_stereo
+    camera_name1: narrow_stereo1
+    camera_serial: "DA0709996"
+    camera_serial1: "DA1830770" 
+    exposure_time: 3000.0    #6000.0
+    exposure_time1: 3000.0
+    fps: 165.0
+    gain: 16.0
+    use_sensor_data_qos: true
+
+/jlcv_serial_driver:
+  ros__parameters:
+    timestamp_offset: 0.006
+    device_name: /dev/ttyUSB0
+    baud_rate: 921600   #921600 or 115200
+    flow_control: none
+    parity: none
+    stop_bits: "1"
+
+/armor_detector:
+  ros__parameters:
+    debug: true
+    enemy_color: 1
+    binary_thres: 80   #80
+
+    light:
+      min_ratio: 0.02 #0.08
+      max_ratio: 0.4
+    armor:
+      min_light_ratio: 0.85
+
+    classifier_threshold: 0.8
+    ignore_classes: ["negative"] # ["negative","1","2","3","4","5"]
+
+/armor_processor:
+  ros__parameters:
+    target_frame: world
+    max_armor_distance: 12.0
+
+    # infantry3 sigma2_q_xyz: 1e-3  sigma2_q_yaw: 1e1  sigma2_q_r: 80.0  r_xyz_factor: 4e-4  r_yaw: 1e-2
+    ekf:
+      sigma2_q_xyz: 7e-1
+      sigma2_q_yaw:  1e-1
+      sigma2_q_r: 80.0
+
+      r_xyz_factor: 4e-2
+      r_yaw: 5e-3       #5e-3
+
+    tracker:
+      
+      max_match_distance: 11.0     # 0.15  #0.85
+      max_match_yaw_diff: 0.4     # 0.40
+      
+      tracking_thres: 3
+      lost_time_thres: 1.0
+
+/solve_angle:
+  ros__parameters:
+    scale : 0.12

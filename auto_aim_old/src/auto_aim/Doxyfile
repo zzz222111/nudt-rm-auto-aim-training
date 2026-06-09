@@ -1,0 +1,35 @@
+# Doxyfile generated for auto_aim
+PROJECT_NAME           = "auto_aim"
+OUTPUT_DIRECTORY       = docs/doxygen
+INPUT                  = armor_detector/include armor_detector/src armor_processor/include armor_processor/src
+RECURSIVE              = YES
+EXTRACT_ALL            = YES
+GENERATE_HTML          = YES
+GENERATE_LATEX         = NO
+GENERATE_XML           = NO
+# Use dot to produce class diagrams
+HAVE_DOT               = YES
+DOT_NUM_THREADS        = 2
+CLASS_DIAGRAMS         = YES
+CALL_GRAPH             = NO
+CALLER_GRAPH           = NO
+DOT_IMAGE_FORMAT       = png
+DOT_PATH               = /usr/bin
+# Enable member grouping by access
+OPTIMIZE_OUTPUT_FOR_C  = NO
+# Treat files as C++
+EXTENSION_MAPPING      = .hpp=C++ .cpp=C++
+STRIP_FROM_PATH        = .
+GENERATE_TREEVIEW      = YES
+
+# Allow dot to show relationships
+UML_LOOK               = YES
+
+# If PlantUML is available, user can generate additional diagrams via puml files
+INPUT += docs/diagrams
+
+# Warn if APIs are undocumented
+WARN_IF_UNDOCUMENTED   = YES
+WARN_NO_PARAMDOC       = YES
+
+
