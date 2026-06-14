@@ -32,12 +32,29 @@ struct BallTrack
   float radius = 0.0F;
   double speed = 0.0;
   cv::Rect bounding_box;
+  int lost_frames = 0;
   bool initialized = false;
 };
 
 constexpr int kArrowColorBlue = 255;
 constexpr int kArrowColorGreen = 64;
 constexpr int kArrowColorRed = 64;
+constexpr int kMaxLostFrames = 8;
+
+bool isNearFrameBorder(const cv::Rect & bounding_box, const cv::Size & frame_size, int margin = 8)
+{
+  return bounding_box.x <= margin ||
+         bounding_box.y <= margin ||
+         bounding_box.x + bounding_box.width >= frame_size.width - margin ||
+         bounding_box.y + bounding_box.height >= frame_size.height - margin;
+}
+
+cv::Point2f clampPointToFrame(const cv::Point2f & point, const cv::Size & frame_size)
+{
+  const float x = std::clamp(point.x, 0.0F, static_cast<float>(frame_size.width - 1));
+  const float y = std::clamp(point.y, 0.0F, static_cast<float>(frame_size.height - 1));
+  return cv::Point2f(x, y);
+}
 
 // 在 HSV 空间提取绿色区域，并按面积、圆度、长宽比筛出更像球体的候选目标。
 std::vector<BallCandidate> detectBallCandidates(const cv::Mat & frame)
@@ -62,8 +79,8 @@ std::vector<BallCandidate> detectBallCandidates(const cv::Mat & frame)
 
   for (const auto & contour : contours) {
     const double area = cv::contourArea(contour);
-    // 根据抽样统计，绿球轮廓面积稳定落在这个区间附近，过大或过小都直接排除。
-    if (area < 7000.0 || area > 22000.0) {
+    // 贴边时绿球会因为裁切和透视变化变大，因此上限留得比中间帧更宽。
+    if (area < 7000.0 || area > 32000.0) {
       continue;
     }
 
@@ -80,9 +97,15 @@ std::vector<BallCandidate> detectBallCandidates(const cv::Mat & frame)
     const double aspect_ratio =
       static_cast<double>(bounding_box.width) / static_cast<double>(bounding_box.height);
     const double circularity = 4.0 * CV_PI * area / (perimeter * perimeter);
+    const bool near_frame_border = isNearFrameBorder(bounding_box, frame.size());
 
     // 绿色圆柱的投影通常更“瘦长”，这里利用圆度和长宽比把它与绿球区分开。
-    if (circularity < 0.68 || aspect_ratio < 0.85 || aspect_ratio > 1.20) {
+    if (!near_frame_border && (circularity < 0.68 || aspect_ratio < 0.85 || aspect_ratio > 1.20)) {
+      continue;
+    }
+
+    // 靠近边缘时球体轮廓可能被裁切，因此放宽几何约束，但仍保留最低可信度限制。
+    if (near_frame_border && (circularity < 0.45 || aspect_ratio < 0.55 || aspect_ratio > 1.45)) {
       continue;
     }
 
@@ -130,10 +153,21 @@ std::optional<BallCandidate> chooseBestCandidate(
       // 结合上一帧速度做一个简单的位置预测，优先选择运动连续的目标。
       const cv::Point2f predicted_center = previous_track.center + previous_track.velocity;
       const double distance = cv::norm(candidate.center - predicted_center);
+      const double max_allowed_distance =
+        std::max(previous_track.radius * 1.8, previous_track.speed * 3.5 + 35.0);
+
+      // 若候选目标与预测位置相差过大，说明大概率已经跳到了别的绿色物体上，直接拒绝。
+      if (distance > max_allowed_distance) {
+        continue;
+      }
+
       score -= distance * 0.01;
 
       // 半径变化过大通常意味着跟丢或误匹配，因此增加惩罚项。
       const double radius_gap = std::abs(candidate.radius - previous_track.radius);
+      if (radius_gap > previous_track.radius * 0.45) {
+        continue;
+      }
       score -= radius_gap * 0.02;
     }
 
@@ -170,7 +204,7 @@ std::string buildStatusText(double speed_pixels_per_second, double speed_delta_p
 // 在当前帧绘制检测圆、速度箭头和状态文本。
 void drawTrackOverlay(
   cv::Mat & frame, const BallTrack & current_track, const BallTrack & previous_track,
-  double fps, int frame_index)
+  double fps, int frame_index, bool is_predicted)
 {
   cv::circle(frame, current_track.center, static_cast<int>(std::round(current_track.radius)),
     cv::Scalar(0, 255, 255), 2);
@@ -201,7 +235,8 @@ void drawTrackOverlay(
     std::max(40, current_track.bounding_box.y - 16));
 
   cv::putText(
-    frame, "green ball", info_anchor, cv::FONT_HERSHEY_SIMPLEX, 0.8,
+    frame, is_predicted ? "green ball predicted" : "green ball", info_anchor,
+    cv::FONT_HERSHEY_SIMPLEX, 0.8,
     cv::Scalar(0, 255, 255), 2, cv::LINE_AA);
   cv::putText(
     frame, buildStatusText(speed_pixels_per_second, speed_delta_pixels_per_second),
@@ -260,6 +295,7 @@ int main(int argc, char ** argv)
       current_track.radius = selected_candidate->radius;
       current_track.initialized = true;
       current_track.bounding_box = selected_candidate->bounding_box;
+      current_track.lost_frames = 0;
 
       if (previous_track.initialized) {
         current_track.velocity = current_track.center - previous_track.center;
@@ -269,13 +305,29 @@ int main(int argc, char ** argv)
         current_track.speed = 0.0;
       }
 
-      drawTrackOverlay(frame, current_track, previous_track, fps, frame_index);
+      drawTrackOverlay(frame, current_track, previous_track, fps, frame_index, false);
       previous_track = current_track;
+    } else if (previous_track.initialized && previous_track.lost_frames < kMaxLostFrames) {
+      // 短时间丢失时使用上一帧速度做位置外推，避免目标贴边时直接中断显示。
+      BallTrack predicted_track = previous_track;
+      predicted_track.center = clampPointToFrame(
+        previous_track.center + previous_track.velocity, frame.size());
+      predicted_track.bounding_box.x =
+        static_cast<int>(std::round(predicted_track.center.x - predicted_track.radius));
+      predicted_track.bounding_box.y =
+        static_cast<int>(std::round(predicted_track.center.y - predicted_track.radius));
+      predicted_track.bounding_box.width = static_cast<int>(std::round(predicted_track.radius * 2.0F));
+      predicted_track.bounding_box.height = static_cast<int>(std::round(predicted_track.radius * 2.0F));
+      predicted_track.lost_frames = previous_track.lost_frames + 1;
+
+      drawTrackOverlay(frame, predicted_track, previous_track, fps, frame_index, true);
+      previous_track = predicted_track;
     } else {
       // 当前帧未找到可信目标时保留提示，方便后续调参排查。
       cv::putText(
         frame, "green ball lost", cv::Point(20, 36), cv::FONT_HERSHEY_SIMPLEX, 0.8,
         cv::Scalar(0, 0, 255), 2, cv::LINE_AA);
+      previous_track = BallTrack{};
     }
 
     writer.write(frame);
