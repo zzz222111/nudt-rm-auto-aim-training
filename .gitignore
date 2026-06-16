@@ -1,7 +1,6 @@
 **/build/
 **/.vscode/
 **/.idea/
-**/build/
 **/install/
 **/log/
 **/imgs/
@@ -9,4 +8,10 @@
 **/MvSdkLog/
 **/*.mp4
 **/*.jpg
+**/*.png
 **/*.zip
+**/assets/
+**/asset/
+**/*.csv
+**/bin/
+**/*.xlsx

@@ -138,6 +138,8 @@ class BallTracker:
         fourcc = cv2.VideoWriter_fourcc(*'mp4v')
         out = cv2.VideoWriter(output_path, fourcc, fps, (width, height))
         
+        
+
         frame_count = 0
         prev_smooth = None
         
